@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 // Define navigation links here for easy management
 const NAV_LINKS = [
@@ -14,18 +15,17 @@ export default function HireloopNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-transparent p-4 w-full flex justify-center">
-      <nav className="bg-[#1a1a1c] rounded-2xl px-6 py-3 shadow-md w-full max-w-6xl flex flex-col md:flex-row justify-between items-center transition-all duration-300">
-        
+    <header className="fixed top-0 w-full flex justify-center z-50 p-1 transition-all">
+      <nav className="rounded-2xl px-6 py-3 w-full max-w-7xl flex flex-col md:flex-row justify-between items-center transition-all duration-300">
+
         {/* LEFT: Brand / Logo & Mobile Toggle */}
         <div className="flex justify-between items-center w-full md:w-auto">
-          <Link href="/" className="flex items-center gap-1 font-bold text-2xl tracking-tight">
-            <span className="text-[#008ae6]">hire</span>
-            <span className="text-[#ff6600]">loop</span>
+          <Link href="/" className="backdrop-blur-sm rounded-xl py-1.5 px-2">
+            <Image src="/logo.png" alt="HireLoop Logo" width={100} height={100} />
           </Link>
 
           {/* Mobile Hamburger Button */}
-          <button 
+          <button
             className="md:hidden text-zinc-300 hover:text-white p-2"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle navigation"
@@ -41,10 +41,10 @@ export default function HireloopNavbar() {
         </div>
 
         {/* RIGHT: Navigation Links & Auth */}
-        <div className={`${isMobileMenuOpen ? "flex" : "hidden"} md:flex flex-col md:flex-row items-center gap-6 mt-6 md:mt-0 w-full md:w-auto`}>
-          
+        <div className={`${isMobileMenuOpen ? "flex" : "hidden"} backdrop-blur-md  py-2 px-3 rounded-xl md:flex flex-col md:flex-row items-center gap-6 mt-3 md:mt-0 w-full md:w-auto`}>
+
           {/* Mapped Navigation Links */}
-          <ul className="flex flex-col md:flex-row gap-6 items-center m-0 p-0 list-none w-full md:w-auto">
+          <ul className="flex flex-col md:flex-row gap-6 items-center m-0 p-4 sm:p-1 list-none w-full md:w-auto">
             {NAV_LINKS.map((link) => (
               <li key={link.label}>
                 <Link href={link.href} className="text-zinc-300 text-sm font-medium hover:text-white transition-colors block">
@@ -56,7 +56,7 @@ export default function HireloopNavbar() {
 
           {/* Vertical Separator (Desktop) */}
           <div className="hidden md:block h-5 w-px bg-zinc-700"></div>
-          
+
           {/* Horizontal Separator (Mobile) */}
           <div className="md:hidden w-full h-px bg-zinc-700 my-2"></div>
 
@@ -68,9 +68,9 @@ export default function HireloopNavbar() {
               </Link>
             </li>
             <li className="w-full md:w-auto">
-              <Link 
-                href="/signup" 
-                className="bg-[#6b58ff] hover:bg-[#5a48e6] text-white rounded-xl text-sm font-medium px-6 py-2 transition-all shadow-lg shadow-indigo-500/20 flex justify-center w-full md:w-auto"
+              <Link
+                href="/signup"
+                className="bg-[#6b58ff] hover:bg-[#5a48e6] text-white rounded-lg text-sm font-medium px-6 py-2 transition-all shadow-lg shadow-indigo-500/20 flex justify-center w-full md:w-auto"
               >
                 Get Started
               </Link>
