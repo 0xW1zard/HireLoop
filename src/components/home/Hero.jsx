@@ -45,10 +45,10 @@ export default function Hero() {
           </p>
 
           {/* Search Bar */}
-          <div className="bg-[#111113] mt-12 w-full max-w-3xl flex flex-col sm:flex-row items-center rounded-xl sm:rounded-2xl shadow-2xl shadow-indigo-500/10 border border-zinc-800 p-2 sm:gap-2">
+          <div className="bg-[#111113] mt-12 w-full max-w-3xl flex flex-col sm:flex-row items-center rounded-xl sm:rounded-2xl shadow-2xl shadow-indigo-500/10 border border-indigo-900 p-2 sm:gap-2">
 
             {/* Job Search Input */}
-            <div className="flex-1 flex items-center gap-3 px-4 py-3 sm:py-2 border-b sm:border-b-0 sm:border-r border-zinc-800 w-full">
+            <div className="flex-1 flex items-center gap-3 px-4 py-3 sm:py-2 border-b sm:border-b-0 sm:border-r border-indigo-900 w-full">
               <svg className="w-5 h-5 text-zinc-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
@@ -104,7 +104,7 @@ export default function Hero() {
           </div>
 
           {/* === NEW STATISTICS CARDS === */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full max-w-6xl pb-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full max-w-6xl pb-16">
             
             {/* Card 1: Active Jobs */}
             <div className="border border-zinc-800/60 rounded-2xl p-6 flex flex-col items-start text-left shadow-2xl shadow-gray-100/10 backdrop-blur-sm">
