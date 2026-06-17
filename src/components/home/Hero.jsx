@@ -9,9 +9,9 @@ export default function Hero() {
         <div
           className="absolute inset-0 z-0 opacity-50 bg-cover pointer-events-none h-500"
           style={{
-            backgroundImage: "url('/globe.png')",
+            backgroundImage: "url('/globe-e.png')",
             backgroundPosition: "center",
-            backgroundSize: "100% auto",
+            backgroundSize: "auto 100%",
             overflow: "hidden",
             backgroundRepeat: "no-repeat",
           }}

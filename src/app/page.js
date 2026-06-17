@@ -1,9 +1,10 @@
-import CtaSection from "@/components/home/CtaSection";
-import FeaturesSection from "@/components/home/FeaturesSection";
-import Hero from "@/components/home/Hero";
-import JobSection from "@/components/home/JobSection";
-import PricingSection from "@/components/home/PricingSection";
-import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const Hero = dynamic(() => import("@/components/home/Hero"));
+const JobSection = dynamic(() => import("@/components/home/JobSection"));
+const FeaturesSection = dynamic(() => import("@/components/home/FeaturesSection"));
+const PricingSection = dynamic(() => import("@/components/home/PricingSection"));
+const CtaSection = dynamic(() => import("@/components/home/CtaSection"));
 
 export default function Home() {
   return (
