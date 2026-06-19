@@ -1,35 +1,34 @@
 "use client";
 import React from "react";
-import { TextField, Label, Input, FieldError, Button, Link } from "@heroui/react";
+import { Form, TextField, Label, Input, FieldError, Button, Link } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { showToastError, showToastSuccess } from "@/components/Toasts";
 
-export default function SignUp() {
+export default function SignIn() {
   const router = useRouter();
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
     // Extract values using FormData as per your component structure
-    const Data = new FormData(e.currentTarget);
+    const Data = new FormData(e.target);
     const Formdata = Object.fromEntries(Data.entries());
 
-    // BetterAuth Sign Up Logic
-    const { data, error } = await authClient.signUp.email({
-      name: Formdata.name, // required
+    // BetterAuth Login Logic
+    const { data, error } = await authClient.signIn.email({
       email: Formdata.email, // required
       password: Formdata.password, // required
-      image: Formdata.photoUrl,
-      callbackURL: "/",
-    });
-
+    })
     if (error) {
-      showToastError(error.message || "Sign up failed. Please try again.");
+      showToastError(error.message || "Sign in failed. Please check your credentials.");
       return;
+    } else {
+      showToastSuccess("Signed in successfully!");
+      router.push("/");
     }
-    showToastSuccess("Account created successfully!");
-    router.push("/");
+
+
   };
 
   const handleGoogleLogin = async () => {
@@ -48,40 +47,26 @@ export default function SignUp() {
   };
 
   return (
-    <div className="bg-[#09090B] min-h-screen flex flex-col justify-center items-center p-6 font-sans text-white py-12">
+    <div className="bg-[#09090B] min-h-screen flex flex-col justify-center items-center p-6 font-sans text-white">
 
       <div className="flex items-center space-x-2 text-[11px] font-bold tracking-[0.25em] text-[#3A3AF4] mb-8">
         <span>▪</span>
-        <span className="text-[#8E8E93] uppercase font-semibold">Join the Platform</span>
+        <span className="text-[#8E8E93] uppercase font-semibold">Welcome Back</span>
         <span>▪</span>
       </div>
 
       <div className="w-full max-w-md bg-[#141416] border border-[#232326] rounded-2xl p-8 shadow-2xl">
-        <h2 className="text-2xl font-medium tracking-tight mb-2">Create an account</h2>
-        <p className="text-[#8E8E93] text-sm mb-8">Build your profile and start finding matches.</p>
+        <h2 className="text-2xl font-medium tracking-tight mb-2">Sign in to your account</h2>
+        <p className="text-[#8E8E93] text-sm mb-8">Enter your details to access your dashboard.</p>
 
-        <form className="flex flex-col gap-5 w-full" onSubmit={onSubmit}>
-
-          <TextField
-            isRequired
-            name="name"
-            validate={(value) => {
-              if (!value || !value.trim()) return "Please provide your full name.";
-              return null;
-            }}
-            className="w-full flex flex-col gap-1.5"
-          >
-            <Label className={labelStyle}>Full Name</Label>
-            <Input variant="bordered" placeholder="John Doe" classnames={inputClasses} />
-            <FieldError className={errorStyle} />
-          </TextField>
+        <Form className="flex flex-col gap-5 w-full" onSubmit={onSubmit}>
 
           <TextField
             isRequired
             name="email"
             type="email"
             validate={(value) => {
-              if (!value || !value.trim()) return "Email is required.";
+              if (!value || !value.trim()) return "Email is required to sign in.";
               return null;
             }}
             className="w-full flex flex-col gap-1.5"
@@ -93,31 +78,16 @@ export default function SignUp() {
 
           <TextField
             isRequired
-            name="photoUrl"
-            type="url"
-            validate={(value) => {
-              if (!value || !value.trim()) return "A profile photo URL is required.";
-              return null;
-            }}
-            className="w-full flex flex-col gap-1.5"
-          >
-            <Label className={labelStyle}>Photo URL</Label>
-            <Input variant="bordered" placeholder="https://example.com/avatar.jpg" classnames={inputClasses} />
-            <FieldError className={errorStyle} />
-          </TextField>
-
-          <TextField
-            isRequired
             name="password"
             type="password"
             validate={(value) => {
-              if (!value || !value.trim()) return "Please create a password.";
+              if (!value || !value.trim()) return "Please enter your password.";
               return null;
             }}
             className="w-full flex flex-col gap-1.5"
           >
             <Label className={labelStyle}>Password</Label>
-            <Input variant="bordered" placeholder="Create a password" classnames={inputClasses} />
+            <Input variant="bordered" placeholder="Enter your password" classnames={inputClasses} />
             <FieldError className={errorStyle} />
           </TextField>
 
@@ -125,9 +95,9 @@ export default function SignUp() {
             type="submit"
             className="w-full bg-white text-black font-medium text-sm py-6 rounded-xl mt-2 hover:bg-[#E5E5EA]"
           >
-            Create Account
+            Sign In
           </Button>
-        </form>
+        </Form>
 
         <div className="flex items-center gap-4 my-6">
           <div className="flex-1 h-px bg-[#232326]"></div>
@@ -150,9 +120,9 @@ export default function SignUp() {
         </Button>
 
         <p className="text-center text-sm text-[#8E8E93] mt-8">
-          Already have an account?{" "}
-          <Link href="/signin" className="text-white hover:text-[#BF5AF2] text-sm font-medium transition-colors">
-            Sign in
+          Don't have an account?{" "}
+          <Link href="/signup" className="text-white hover:text-[#BF5AF2] text-sm font-medium transition-colors">
+            Sign up
           </Link>
         </p>
       </div>

@@ -1,32 +1,38 @@
 "use client";
 import React from "react";
-import { Form, TextField, Label, Input, FieldError, Button, Link } from "@heroui/react";
+import { TextField, Label, Input, FieldError, Button, Link } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { showToastError, showToastSuccess } from "@/components/Toasts";
+import { Description, Radio, RadioGroup } from "@heroui/react";
 
-export default function SignIn() {
+
+export default function SignUp() {
   const router = useRouter();
+  const [role, setRole] = React.useState("seeker");
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
     // Extract values using FormData as per your component structure
-    const Data = new FormData(e.target);
+    const Data = new FormData(e.currentTarget);
     const Formdata = Object.fromEntries(Data.entries());
-
-    // BetterAuth Login Logic
-    const { data, error } = await authClient.signIn.email({
+    
+    // BetterAuth Sign Up Logic
+    const { data, error } = await authClient.signUp.email({
+      name: Formdata.name, // required
       email: Formdata.email, // required
       password: Formdata.password, // required
+      image: Formdata.photoUrl,
+      role: role,
       callbackURL: "/",
-    })
+    });
+
     if (error) {
-      showToastError(error.message || "Sign in failed. Please check your credentials.");
+      showToastError(error.message || "Sign up failed. Please try again.");
       return;
     }
-
-    showToastSuccess("Signed in successfully!");
+    showToastSuccess("Account created successfully!");
     router.push("/");
   };
 
@@ -46,26 +52,40 @@ export default function SignIn() {
   };
 
   return (
-    <div className="bg-[#09090B] min-h-screen flex flex-col justify-center items-center p-6 font-sans text-white">
+    <div className="bg-[#09090B] min-h-screen flex flex-col justify-center items-center p-6 font-sans text-white py-12">
 
       <div className="flex items-center space-x-2 text-[11px] font-bold tracking-[0.25em] text-[#3A3AF4] mb-8">
         <span>▪</span>
-        <span className="text-[#8E8E93] uppercase font-semibold">Welcome Back</span>
+        <span className="text-[#8E8E93] uppercase font-semibold">Join the Platform</span>
         <span>▪</span>
       </div>
 
       <div className="w-full max-w-md bg-[#141416] border border-[#232326] rounded-2xl p-8 shadow-2xl">
-        <h2 className="text-2xl font-medium tracking-tight mb-2">Sign in to your account</h2>
-        <p className="text-[#8E8E93] text-sm mb-8">Enter your details to access your dashboard.</p>
+        <h2 className="text-2xl font-medium tracking-tight mb-2">Create an account</h2>
+        <p className="text-[#8E8E93] text-sm mb-8">Build your profile and start finding matches.</p>
 
-        <Form className="flex flex-col gap-5 w-full" onSubmit={onSubmit}>
+        <form className="flex flex-col gap-5 w-full" onSubmit={onSubmit}>
+
+          <TextField
+            isRequired
+            name="name"
+            validate={(value) => {
+              if (!value || !value.trim()) return "Please provide your full name.";
+              return null;
+            }}
+            className="w-full flex flex-col gap-1.5"
+          >
+            <Label className={labelStyle}>Full Name</Label>
+            <Input variant="bordered" placeholder="John Doe" classnames={inputClasses} />
+            <FieldError className={errorStyle} />
+          </TextField>
 
           <TextField
             isRequired
             name="email"
             type="email"
             validate={(value) => {
-              if (!value || !value.trim()) return "Email is required to sign in.";
+              if (!value || !value.trim()) return "Email is required.";
               return null;
             }}
             className="w-full flex flex-col gap-1.5"
@@ -77,26 +97,63 @@ export default function SignIn() {
 
           <TextField
             isRequired
+            name="photoUrl"
+            type="url"
+            validate={(value) => {
+              if (!value || !value.trim()) return "A profile photo URL is required.";
+              return null;
+            }}
+            className="w-full flex flex-col gap-1.5"
+          >
+            <Label className={labelStyle}>Photo URL</Label>
+            <Input variant="bordered" placeholder="https://example.com/avatar.jpg" classnames={inputClasses} />
+            <FieldError className={errorStyle} />
+          </TextField>
+
+          <TextField
+            isRequired
             name="password"
             type="password"
             validate={(value) => {
-              if (!value || !value.trim()) return "Please enter your password.";
+              if (!value || !value.trim()) return "Please create a password.";
               return null;
             }}
             className="w-full flex flex-col gap-1.5"
           >
             <Label className={labelStyle}>Password</Label>
-            <Input variant="bordered" placeholder="Enter your password" classnames={inputClasses} />
+            <Input variant="bordered" placeholder="Create a password" classnames={inputClasses} />
             <FieldError className={errorStyle} />
           </TextField>
+
+          <div className="flex gap-4 my-5 w-fit mx-auto">
+            <RadioGroup defaultValue="seeker" name="plan" orientation="horizontal" onValueChange={(value) => setRole(value)}>
+              <Radio value="seeker">
+                <Radio.Control>
+                  <Radio.Indicator className="border border-indigo-400 rounded-full" />
+                </Radio.Control>
+                <Radio.Content>
+                  Job Seeker
+                </Radio.Content>
+              </Radio>
+              <Radio value="recruiter">
+                <Radio.Control>
+                  <Radio.Indicator className="border border-indigo-400 rounded-full" />
+                </Radio.Control>
+                <Radio.Content>
+                  Recruiter
+                </Radio.Content>
+              </Radio>
+            </RadioGroup>
+          </div>
+
 
           <Button
             type="submit"
             className="w-full bg-white text-black font-medium text-sm py-6 rounded-xl mt-2 hover:bg-[#E5E5EA]"
           >
-            Sign In
+            Create Account
           </Button>
-        </Form>
+        </form>
 
         <div className="flex items-center gap-4 my-6">
           <div className="flex-1 h-px bg-[#232326]"></div>
@@ -119,9 +176,9 @@ export default function SignIn() {
         </Button>
 
         <p className="text-center text-sm text-[#8E8E93] mt-8">
-          Don't have an account?{" "}
-          <Link href="/signup" className="text-white hover:text-[#BF5AF2] text-sm font-medium transition-colors">
-            Sign up
+          Already have an account?{" "}
+          <Link href="/signin" className="text-white hover:text-[#BF5AF2] text-sm font-medium transition-colors">
+            Sign in
           </Link>
         </p>
       </div>
