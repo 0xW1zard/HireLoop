@@ -1,17 +1,18 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { LayoutSideContentLeft, Briefcase, Envelope, Gear, House, Person } from "@gravity-ui/icons";
+import { LayoutSideContentLeft, Briefcase, Envelope, Gear, House, Plus, Factory } from "@gravity-ui/icons";
 import { Button, Drawer } from "@heroui/react";
 import Image from "next/image";
 
 export function DashboardSidebar() {
     // Note: I added an 'isActive' flag to demonstrate the styling of the active route
     const navItems = [
-        { icon: House, href: "/dashboard", label: "Dashboard", isActive: true },
-        { icon: Briefcase, href: "/dashboard/company", label: "My Company", isActive: false },
-        { icon: Briefcase, href: "/dashboard/jobs", label: "Manage Jobs", isActive: false },
-        { icon: Envelope, href: "/dashboard/applications", label: "Applications", isActive: false },
+        { icon: House, href: "/dashboard/recruiter", label: "Dashboard", isActive: true },
+        { icon: Briefcase, href: "/dashboard/recruiter/jobs", label: "Manage Jobs", isActive: false },
+        { icon: Plus, href: "/dashboard/recruiter/jobs/new", label: "Post Job", isActive: false },
+        { icon: Envelope, href: "/dashboard/recruiter/applications", label: "Applications", isActive: false },
+        { icon: Factory, href: "/dashboard/recruiter/company", label: "Company Profile", isActive: false },
         { icon: Gear, href: "/dashboard/settings", label: "Settings", isActive: false },
     ];
 
