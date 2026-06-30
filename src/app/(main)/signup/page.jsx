@@ -1,15 +1,15 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { TextField, Label, Input, FieldError, Button, Link } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { showToastError, showToastSuccess } from "@/components/Toasts";
-import { Description, Radio, RadioGroup } from "@heroui/react";
+import { Radio, RadioGroup } from "@heroui/react";
 
 
 export default function SignUp() {
   const router = useRouter();
-  const [role, setRole] = React.useState("seeker");
+
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -17,14 +17,14 @@ export default function SignUp() {
     // Extract values using FormData as per your component structure
     const Data = new FormData(e.currentTarget);
     const Formdata = Object.fromEntries(Data.entries());
-    
+
     // BetterAuth Sign Up Logic
     const { data, error } = await authClient.signUp.email({
       name: Formdata.name, // required
       email: Formdata.email, // required
       password: Formdata.password, // required
       image: Formdata.photoUrl,
-      role: role,
+      role: Formdata.role,
       callbackURL: "/",
     });
 
@@ -125,25 +125,31 @@ export default function SignUp() {
             <FieldError className={errorStyle} />
           </TextField>
 
-          <div className="flex gap-4 my-5 w-fit mx-auto">
-            <RadioGroup defaultValue="seeker" name="plan" orientation="horizontal" onValueChange={(value) => setRole(value)}>
-              <Radio value="seeker">
-                <Radio.Control>
-                  <Radio.Indicator className="border border-indigo-400 rounded-full" />
-                </Radio.Control>
-                <Radio.Content>
-                  Job Seeker
-                </Radio.Content>
-              </Radio>
-              <Radio value="recruiter">
-                <Radio.Control>
-                  <Radio.Indicator className="border border-indigo-400 rounded-full" />
-                </Radio.Control>
-                <Radio.Content>
-                  Recruiter
-                </Radio.Content>
-              </Radio>
-            </RadioGroup>
+          {/* Role Selection (DaisyUI) */}
+          <div className="flex flex-col gap-3 my-2 text-center mx-auto">
+            <Label className="text-md text-[#8E8E93]">Account Type</Label>
+            <div className="flex items-center gap-6">
+              <label className="flex items-center gap-2 cursor-pointer text-[15px]  hover:text-white transition-colors">
+                <input
+                  type="radio"
+                  name="role"
+                  value="seeker"
+                  className="radio radio-primary"
+                  defaultChecked
+                />
+                Job Seeker
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer text-[15px] hover:text-white transition-colors">
+                <input
+                  type="radio"
+                  name="role"
+                  value="recruiter"
+                  className="radio radio-primary"
+                />
+                Recruiter
+              </label>
+            </div>
           </div>
 
 
@@ -181,7 +187,7 @@ export default function SignUp() {
             Sign in
           </Link>
         </p>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }

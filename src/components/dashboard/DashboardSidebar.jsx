@@ -1,11 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React, { use } from "react";
 import Link from "next/link";
 import { LayoutSideContentLeft, Briefcase, Envelope, Gear, House, Plus, Factory } from "@gravity-ui/icons";
 import { Button, Drawer } from "@heroui/react";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
 
 export function DashboardSidebar() {
+
+    const { data: session } = authClient.useSession()
+    const { user } = session || {}
+
     // Note: I added an 'isActive' flag to demonstrate the styling of the active route
     const navItems = [
         { icon: House, href: "/dashboard/recruiter", label: "Dashboard", isActive: true },
@@ -26,13 +31,13 @@ export function DashboardSidebar() {
             {/* User Profile Card */}
             <div className="px-6 mb-8 flex items-start gap-3">
                 <Image
-                    src="https://i.pravatar.cc/150?u=alex" 
-                    alt="Alex Sterling"  width={200} height={200}
+                    src={user?.image || "https://i.pravatar.cc/150?u=alex"}
+                    alt="User Image" width={200} height={200}
                     className="w-10 h-10 rounded-full border border-[#232326] object-cover shrink-0"
                 />
                 <div className="flex flex-col">
-                    <span className="text-sm font-medium text-white leading-tight">Alex Sterling</span>
-                    <span className="text-xs text-[#8E8E93] mb-1.5 mt-0.5">Recruiter</span>
+                    <span className="text-md font-medium text-white leading-tight">{user?.name}</span>
+                    <span className="text-xs text-[#8E8E93] mb-1.5 mt-0.5">{user?.role?.toUpperCase()}</span>
                     <span className="text-[9px] font-bold tracking-wider text-[#A1A1AA] bg-[#1D1D20] px-2 py-0.5 rounded-sm w-fit border border-[#2E2E33]">
                         PREMIUM ACCOUNT
                     </span>
@@ -46,15 +51,15 @@ export function DashboardSidebar() {
                         key={item.label}
                         href={item.href}
                         className={`flex items-center gap-3 px-3 py-3 text-[13px] font-medium transition-all group relative
-                            ${item.isActive 
-                                ? "text-white bg-[#1A1A1D] rounded-lg" 
+                            ${item.isActive
+                                ? "text-white bg-[#1A1A1D] rounded-lg"
                                 : "text-[#8E8E93] hover:text-white hover:bg-[#141416] rounded-lg"
                             }
                         `}
                     >
                         <item.icon className={`w-5 h-5 ${item.isActive ? "text-white" : "text-[#8E8E93] group-hover:text-white"}`} />
                         {item.label}
-                        
+
                         {/* Active State Right Border Indicator */}
                         {item.isActive && (
                             <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-white rounded-l-full"></div>

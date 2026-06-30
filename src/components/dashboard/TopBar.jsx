@@ -6,16 +6,22 @@ import { MdLogout } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-// import { authClient } from "@/lib/auth-client"; 
+import { authClient } from "@/lib/auth-client";
+import { showToastSuccess } from "../Toasts";
 
 export default function TopBar({ company }) {
   const router = useRouter();
 
   const handleLogout = async () => {
-    // BetterAuth Logout Logic
-    // await authClient.signOut();
-    router.push("/signin");
-  };
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          showToastSuccess("Logged out successfully!");
+          router.push("/"); 
+        },
+      },
+    });
+  }
 
   return (
     <header className="h-20 flex items-center justify-between px-4 md:px-8 border-b border-[#232326] bg-[#09090B] shrink-0 gap-4">

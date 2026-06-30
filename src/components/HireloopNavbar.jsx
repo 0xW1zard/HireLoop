@@ -85,6 +85,7 @@ export default function HireloopNavbar() {
           {
             user ? (
               <div className="flex items-center gap-2.5">
+              <button onClick={() => router.push(`/dashboard/${user.role}`)} aria-label="Dashboard" className="text-[15px] py-1.5 px-2 bg-indigo-600 hover:text-indigo-400 hover:bg-indigo-400/10 rounded-lg transition-all duration-200">Dashboard</button>
                 <Image src={user?.image || "/avatar.jpg"} alt="User Avatar" width={40} height={40} className="rounded-xl border-2 p-0.5 border-[#6b58ff]" />
                 <span className="text-sm text-zinc-300">{name}</span>
                 <button onClick={handleLogout} aria-label="Logout" className="p-1.5 text-zinc-400 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-all duration-200">
@@ -99,10 +100,7 @@ export default function HireloopNavbar() {
                   </Link>
                 </li>
                 <li className="w-full md:w-auto">
-                  <Link
-                    href="/signup"
-                    className="bg-[#6b58ff] hover:bg-[#5a48e6] text-white rounded-lg text-sm font-medium px-6 py-2 transition-all shadow-lg shadow-indigo-500/20 flex justify-center w-full md:w-auto"
-                  >
+                  <Link href="/signup" className="bg-[#6b58ff] hover:bg-[#5a48e6] text-white rounded-lg text-sm font-medium px-6 py-2 transition-all shadow-lg shadow-indigo-500/20 flex justify-center w-full md:w-auto" >
                     Get Started
                   </Link>
                 </li>
