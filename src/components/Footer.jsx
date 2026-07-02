@@ -32,7 +32,7 @@ export default function Footer() {
           {/* Brand & Description (Takes up more space on desktop) */}
           <div className="md:col-span-5 lg:col-span-4">
             <Link href="/" className="flex items-center gap-1 font-bold text-3xl tracking-tight">
-              <Image src="/logo.png" alt="HireLoop Logo" width={120} height={120} />
+              <Image src="/logo.png" alt="HireLoop Logo" width={120} height={120} className="w-auto h-auto" />
             </Link>
             <p className="text-zinc-500 text-sm mt-4 max-w-xs leading-relaxed font-medium">
               The AI-native career platform. Built for people who take their work seriously.

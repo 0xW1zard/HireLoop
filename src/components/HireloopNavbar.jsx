@@ -42,7 +42,7 @@ export default function HireloopNavbar() {
         {/* LEFT: Brand / Logo & Mobile Toggle */}
         <div className="flex justify-between items-center w-full md:w-auto">
           <Link href="/" className="backdrop-blur-sm rounded-xl py-1.5 px-2">
-            <Image src="/logo.png" alt="HireLoop Logo" width={100} height={100} />
+            <Image src="/logo.png" alt="HireLoop Logo" width={100} height={100} className="w-auto h-auto" />
           </Link>
 
           {/* Mobile Hamburger Button */}
