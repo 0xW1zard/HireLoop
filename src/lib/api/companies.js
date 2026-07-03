@@ -13,3 +13,7 @@ export const getLoggedInRecruiterCompany = async () => {
 export const getAllCompanies = async () => {
     return serverFetch(`/api/companies`);
 }
+
+export const getCompanyById = async (companyId) => {
+    return serverFetch(`/api/companies/${companyId}`);
+}

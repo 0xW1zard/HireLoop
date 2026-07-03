@@ -1,65 +1,66 @@
 import React from 'react';
+import Link from 'next/link';
 
-export default function JobCard({ 
-  title = "Frontend Developer", 
-  description = "Showcase your commitment to diversity and inclusion by highlighting initiatives", 
-  location = "New York, USA", 
-  type = "Hybrid", 
-  rate = "€25–€40/hour" 
-}) {
+export default function JobCard({ job }) {
   return (
-    <div className="bg-[#141416] border border-[#232326] rounded-2xl p-7 flex flex-col justify-between min-h-[290px] transition-all duration-300 hover:border-zinc-700">
-      <div>
-        {/* Job Title */}
-        <h3 className="text-white text-xl font-semibold tracking-wide mb-2">
-          {title}
-        </h3>
+    <div className="bg-[#161616] rounded-3xl p-6 flex flex-col h-full border border-neutral-800 transition-transform hover:-translate-y-1">
+      
+      {/* Top Section flex-grow pushes the Apply button to the very bottom uniformly */}
+      <div className="flex flex-col grow">
         
-        {/* Description */}
-        <p className="text-[#8E8E93] text-[13px] leading-relaxed mb-6 font-normal">
-          {description}
-        </p>
-        
-        {/* Badges/Tags Container */}
-        <div className="flex flex-wrap gap-2 items-center mb-6">
-          {/* Location Badge */}
-          <span className="inline-flex items-center bg-[#1D1D20] text-[#D1D1D6] text-xs px-3 py-1.5 rounded-full font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#BF5AF2] mr-2"></span>
-            {location}
-          </span>
-
-          {/* Job Type Badge */}
-          <span className="inline-flex items-center bg-[#1D1D20] text-[#D1D1D6] text-xs px-3 py-1.5 rounded-full font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#BF5AF2] mr-2"></span>
-            {type}
-          </span>
+        {/* Header & Description */}
+        <div className="mb-6">
+          <h3 className="text-xl font-semibold text-white mb-2">{job.jobTitle}</h3>
           
-          {/* Line break spacer to force rate badge to next line if needed */}
-          <div className="w-full h-0"></div>
+          {/* line-clamp-2 forces exactly 2 lines of text visually, fixing the uneven heights */}
+          <p className="text-neutral-400 text-sm leading-relaxed line-clamp-2">
+            {job.responsibilities || "Showcase your commitment to diversity and inclusion by highlighting initiatives"}
+          </p>
+        </div>
 
-          {/* Rate Badge */}
-          <span className="inline-flex items-center bg-[#1D1D20] text-[#D1D1D6] text-xs px-3 py-1.5 rounded-full font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#BF5AF2] mr-2"></span>
-            {rate}
-          </span>
+        {/* Pills Container */}
+        <div className="flex flex-wrap gap-2 mb-8">
+          
+          {/* Location Pill */}
+          <div className="bg-[#242424] text-neutral-300 rounded-full px-3 py-1.5 text-xs font-medium flex items-center gap-1.5 max-w-full">
+            <svg className="w-3.5 h-3.5 text-purple-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            {/* truncate prevents super long locations from forcing ugly wraps */}
+            <span className="truncate">
+              {job.isRemote ? 'Remote' : job.location}
+            </span>
+          </div>
+          
+          {/* Work Type Pill (Fixed logic) */}
+          <div className="bg-[#242424] text-neutral-300 rounded-full px-3 py-1.5 text-xs font-medium flex items-center gap-1.5 whitespace-nowrap">
+            <svg className="w-3.5 h-3.5 text-purple-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+            {job.jobType.replace('-', ' ')}
+          </div>
+
+          {/* Salary Pill */}
+          <div className="bg-[#242424] text-neutral-300 rounded-full px-3 py-1.5 text-xs font-medium flex items-center gap-1.5 whitespace-nowrap">
+            <svg className="w-3.5 h-3.5 text-purple-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            {job.currency === 'USD' ? '$' : job.currency}{job.minSalary}k - {job.maxSalary}k/year
+          </div>
         </div>
       </div>
 
-      {/* Action Link */}
-      <a 
-        href="#apply" 
-        className="group inline-flex items-center text-white text-sm font-medium hover:text-zinc-300 w-fit transition-colors"
+      {/* Action Button locked to bottom */}
+      <Link 
+        href={`/jobs/${job._id || '123'}`} 
+        className="text-white text-sm font-semibold flex items-center gap-2 hover:text-purple-400 transition-colors w-fit mt-auto"
       >
-        Apply Now
-        <svg 
-          className="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1" 
-          fill="none" 
-          stroke="currentColor" 
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        Apply Now 
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
         </svg>
-      </a>
+      </Link>
     </div>
   );
 }
