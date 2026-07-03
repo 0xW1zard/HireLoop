@@ -17,7 +17,7 @@ const popoverClasses = "bg-zinc-950 border border-zinc-800 rounded-lg p-1 shadow
 const listItemClasses = "text-zinc-300 px-3 py-2 rounded-md cursor-pointer hover:bg-zinc-900 hover:text-white outline-none data-[focused=true]:bg-zinc-900";
 const textAreaClass = "w-full bg-zinc-900/50 border border-zinc-800 text-white rounded-lg p-3 outline-none placeholder:text-zinc-600 focus:border-zinc-700 transition resize-none";
 
-export default function CompanyProfile({ recruiter, recruiterCompany }) {
+export default function CompanyProfile({ recruiter, recruiterCompany, jobs }) {
     // 1. Core State
     const [company, setCompany] = useState(recruiterCompany);
     const [isEditing, setIsEditing] = useState(false);
@@ -167,7 +167,7 @@ export default function CompanyProfile({ recruiter, recruiterCompany }) {
         };
 
         return (
-            <CompanyProfileView company={company} getStatusStyles={getStatusStyles} startEditing={setIsEditing} />
+            <CompanyProfileView company={company} getStatusStyles={getStatusStyles} startEditing={setIsEditing} jobs={jobs} />
         );
     }
 

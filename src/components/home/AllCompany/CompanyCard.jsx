@@ -1,5 +1,6 @@
 import { ArrowRight, CheckCircle2, Cloud, MapPin } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const CompanyCard = ({ company , index}) => {
@@ -45,10 +46,10 @@ const CompanyCard = ({ company , index}) => {
                 <div className="flex items-center gap-2 text-sm text-gray-400 font-medium">
                     <span>{company.activeJobs} Active Jobs</span>
                 </div>
-                <a href="#" className="flex items-center gap-1 text-sm text-white font-medium hover:text-gray-300 transition-colors group">
+                <Link href={`/company/${company._id}`} className="flex items-center gap-1 text-sm text-white font-medium hover:text-gray-300 transition-colors group">
                     View Openings
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
+                </Link>
             </div>
 
         </div>

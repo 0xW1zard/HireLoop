@@ -10,17 +10,16 @@ import {
     Plus,
     ExternalLink,
 } from "lucide-react";
+import JobCard from "../home/JobCard";
+import Link from "next/link";
+import { BiRightArrow } from "react-icons/bi";
 
-export default function CompanyProfileView({ company, startEditing, getStatusStyles }) {
+export default function CompanyProfileView({ company, startEditing, getStatusStyles, jobs }) {
     // Fallback data for the mockup elements that might not be in your DB yet
     const aboutText = company?.description || `Founded in 2014, ${company?.name || 'The company'} has emerged as a global leader in high-performance cloud infrastructure... (Update your description to see it here!)`;
 
     // Mock jobs data (you would pass this as a prop or fetch it in reality)
-    const activeRoles = [
-        { id: 1, title: "Senior Distributed Systems Engineer", loc: "SF / Remote", pay: "$180k - $240k", applicants: "+12" },
-        { id: 2, title: "Product Design Lead", loc: "New York", pay: "$160k - $210k", applicants: "+3" },
-        { id: 3, title: "DevOps Architect (Infra)", loc: "Remote", pay: "$190k+", applicants: "+20" },
-    ];
+    const activeRoles = jobs
 
     return (
         <div className=" mx-auto w-full space-y-8 pb-12 px-1 md:px-8">
@@ -28,7 +27,7 @@ export default function CompanyProfileView({ company, startEditing, getStatusSty
             {/* 1. HERO BANNER SECTION */}
             <div className="relative w-full rounded-2xl bg-zinc-950 border border-zinc-800/60 overflow-hidden min-h-80 flex flex-col justify-end p-8 mt-6">
 
-                <Image src="/globe.png" alt="Company Cover" fill priority className="object-cover opacity-70 pointer-events-none z-0 "/>
+                <Image src="/globe.png" alt="Company Cover" fill priority className="object-cover opacity-70 pointer-events-none z-0 " />
 
 
                 {/* Dark Vignette Overlay (Crucial for keeping text readable over custom images) */}
@@ -132,45 +131,23 @@ export default function CompanyProfileView({ company, startEditing, getStatusSty
                 <div className="space-y-6">
 
                     {/* Active Roles Panel */}
-                    <div className="bg-[#111113] border border-zinc-800/50 rounded-xl p-6">
+                    <div className="border border-zinc-800/50 rounded-xl p-6">
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-base font-semibold text-white">Active Roles</h3>
-                            <span className="bg-zinc-800 text-zinc-300 text-xs px-2 py-0.5 rounded-md font-medium">14</span>
+                            <span className="bg-zinc-800 text-zinc-300 text-xs px-2 py-0.5 rounded-md font-medium">{activeRoles.length}</span>
                         </div>
 
                         <div className="space-y-6">
-                            {activeRoles.map((role) => (
-                                <div key={role.id} className="group border-b border-zinc-800/50 pb-5 last:border-0 last:pb-0">
-                                    <div className="flex justify-between items-start mb-2">
-                                        <h4 className="text-sm font-medium text-zinc-200 group-hover:text-blue-400 transition-colors cursor-pointer">{role.title}</h4>
-                                        <ExternalLink size={14} className="text-zinc-600 shrink-0 ml-2" />
-                                    </div>
-
-                                    <div className="flex gap-2 mb-4">
-                                        <span className="bg-zinc-900/80 border border-zinc-800 text-zinc-400 text-[10px] px-2 py-1 rounded-md">{role.loc}</span>
-                                        <span className="bg-zinc-900/80 border border-zinc-800 text-zinc-400 text-[10px] px-2 py-1 rounded-md">{role.pay}</span>
-                                    </div>
-
-                                    <div className="flex items-center justify-between">
-                                        {/* Mock Avatar Stack */}
-                                        <div className="flex items-center">
-                                            <div className="flex -space-x-2">
-                                                <div className="w-6 h-6 rounded-full bg-zinc-700 border-2 border-[#111113]" />
-                                                <div className="w-6 h-6 rounded-full bg-zinc-600 border-2 border-[#111113]" />
-                                            </div>
-                                            <span className="text-[10px] text-zinc-500 ml-2 font-medium">{role.applicants}</span>
-                                        </div>
-                                        <Button className="bg-white text-black h-7 px-3 rounded text-xs font-semibold hover:bg-zinc-200 transition-colors">
-                                            Check
-                                        </Button>
-                                    </div>
-                                </div>
+                            {activeRoles.slice(0, 2).map((role) => (
+                                <JobCard key={role._id} job={role} />
                             ))}
                         </div>
 
-                        <button className="w-full mt-6 py-3 border-t border-zinc-800/80 text-xs font-medium text-zinc-400 hover:text-white transition-colors">
-                            See all 14 openings
-                        </button>
+                        <div className="mt-4 w-fit mx-auto">
+                            <Link href="/jobs" className="text-xs font-medium text-zinc-400 hover:text-white transition-colors">
+                                See all {activeRoles.length} openings <BiRightArrow className="inline-block ml-1" />
+                            </Link>
+                        </div>
                     </div>
 
 
