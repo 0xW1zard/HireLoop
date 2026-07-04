@@ -2,11 +2,13 @@
 import React from "react";
 import { Form, TextField, Label, Input, FieldError, Button, Link } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { showToastError, showToastSuccess } from "@/components/Toasts";
 
 export default function SignIn() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect") || "/";
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +27,7 @@ export default function SignIn() {
       return;
     } else {
       showToastSuccess("Signed in successfully!");
-      router.push("/");
+      router.push(redirectUrl);
     }
 
 
@@ -121,7 +123,7 @@ export default function SignIn() {
 
         <p className="text-center text-sm text-[#8E8E93] mt-8">
           Don't have an account?{" "}
-          <Link href="/signup" className="text-white hover:text-[#BF5AF2] text-sm font-medium transition-colors">
+          <Link href={`/signup?redirect=${redirectUrl}`} className="text-white hover:text-[#BF5AF2] text-sm font-medium transition-colors">
             Sign up
           </Link>
         </p>

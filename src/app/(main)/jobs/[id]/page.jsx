@@ -53,9 +53,9 @@ export default async function JobDetailsPage({ params }) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
               </svg>
             </button>
-            <button className="flex-1 sm:flex-none bg-white text-black px-6 py-2.5 rounded-lg font-medium hover:bg-neutral-200 transition-colors">
+            <Link href={`/jobs/${id}/apply`} className="flex-1 sm:flex-none bg-white text-black px-6 py-2.5 rounded-lg font-medium hover:bg-neutral-200 transition-colors">
               Apply Now
-            </button>
+            </Link>
           </div>
         </div>
 

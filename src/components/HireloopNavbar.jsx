@@ -12,7 +12,7 @@ import { showToastSuccess } from "./Toasts";
 const NAV_LINKS = [
   { label: "Browse Jobs", href: "/jobs" },
   { label: "Company", href: "/company" },
-  { label: "Pricing", href: "/pricing" },
+  { label: "Pricing", href: "/plans" },
 ];
 
 export default function HireloopNavbar() {

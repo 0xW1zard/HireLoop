@@ -2,14 +2,15 @@
 import React, { useState } from "react";
 import { TextField, Label, Input, FieldError, Button, Link } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { showToastError, showToastSuccess } from "@/components/Toasts";
 import { Radio, RadioGroup } from "@heroui/react";
 
 
 export default function SignUp() {
   const router = useRouter();
-
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect") || "/";
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +26,6 @@ export default function SignUp() {
       password: Formdata.password, // required
       image: Formdata.photoUrl,
       role: Formdata.role,
-      callbackURL: "/",
     });
 
     if (error) {
@@ -33,7 +33,7 @@ export default function SignUp() {
       return;
     }
     showToastSuccess("Account created successfully!");
-    router.push("/");
+    router.push(redirectUrl);
   };
 
   const handleGoogleLogin = async () => {
@@ -183,7 +183,7 @@ export default function SignUp() {
 
         <p className="text-center text-sm text-[#8E8E93] mt-8">
           Already have an account?{" "}
-          <Link href="/signin" className="text-white hover:text-[#BF5AF2] text-sm font-medium transition-colors">
+          <Link href={`/login?redirect=${redirectUrl}`} className="text-white hover:text-[#BF5AF2] text-sm font-medium transition-colors">
             Sign in
           </Link>
         </p>
